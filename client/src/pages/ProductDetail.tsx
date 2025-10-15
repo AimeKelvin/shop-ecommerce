@@ -1,11 +1,11 @@
 // src/pages/ProductDetail.tsx
 import { useParams, Link, Routes, Route, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { toast } from "sonner";
-import { useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -13,7 +13,19 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { allProducts } from "@/data/products";
+import api from "@/lib/client"; // Axios client
+
+interface Product {
+  _id: string;
+  name: string;
+  price: number;
+  rating: number;
+  category: string;
+  images: string[];
+  description?: string;
+  details?: string[];
+  sizes?: string[];
+}
 
 const ProductReviews = () => {
   const reviews = [
@@ -53,24 +65,47 @@ const ProductReviews = () => {
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [selectedSize, setSelectedSize] = useState("M");
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [selectedSize, setSelectedSize] = useState<string>("");
 
-  const productId = Number(id);
-  const product = allProducts.find((p) => p.id === productId);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        const response = await api.get(`/products/${id}`);
+        setProduct(response.data);
+        if (response.data.sizes && response.data.sizes.length > 0) {
+          setSelectedSize(response.data.sizes[0]);
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to load product");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  if (!product) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-xl text-muted-foreground">Product not found.</p>
-      </div>
-    );
-  }
+    fetchProduct();
+  }, [id]);
 
   const handleAddToCart = () => {
+    if (!product) return;
     toast.success("Added to cart!", {
       description: `${product.name} has been added to your cart.`,
     });
   };
+
+  const handleWhatsApp = () => {
+    if (!product) return;
+    const message = `Hi! I'm interested in your product: ${product.name} (${product.price.toLocaleString()} RWF)`;
+    const phone = "250796105514"; // Replace with your WhatsApp number
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  };
+
+  if (loading) return <div className="text-center py-16">Loading product...</div>;
+  if (!product) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Product not found.</div>;
 
   return (
     <div className="min-h-screen bg-background">
@@ -110,7 +145,7 @@ const ProductDetail = () => {
           </div>
 
           {/* Product Info */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div>
               <h1 className="text-4xl font-bold tracking-tight mb-2">{product.name}</h1>
               <p className="text-sm text-muted-foreground mb-4">{product.category}</p>
@@ -120,7 +155,7 @@ const ProductDetail = () => {
             {/* Size Selection */}
             {product.sizes && product.sizes.length > 0 && (
               <div>
-                <h3 className="text-sm font-medium mb-4">Select Size</h3>
+                <h3 className="text-sm font-medium mb-2">Select Size</h3>
                 <div className="grid grid-cols-5 gap-2">
                   {product.sizes.map((size) => (
                     <Button
@@ -136,18 +171,21 @@ const ProductDetail = () => {
               </div>
             )}
 
-            {/* Add to Cart */}
-            <Button size="lg" className="w-full h-14 text-base" onClick={handleAddToCart}>
-              Add to Cart
-            </Button>
+            {/* Actions */}
+            <div className="flex flex-col gap-3">
+              <Button size="lg" className="w-full h-14 text-base" onClick={handleAddToCart}>
+                Add to Cart
+              </Button>
+              <Button size="lg" className="w-full h-14 text-base" variant="secondary" onClick={handleWhatsApp}>
+                Chat on WhatsApp
+              </Button>
+            </div>
 
             {/* Description & Details */}
             <div className="space-y-4 pt-8 border-t border-border">
               <div>
                 <h3 className="text-sm font-medium mb-2">Product Information</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {product.description}
-                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{product.description}</p>
               </div>
 
               {product.details && product.details.length > 0 && (
@@ -155,9 +193,7 @@ const ProductDetail = () => {
                   <h3 className="text-sm font-medium mb-2">Details</h3>
                   <ul className="space-y-1">
                     {product.details.map((detail, index) => (
-                      <li key={index} className="text-sm text-muted-foreground">
-                        {detail}
-                      </li>
+                      <li key={index} className="text-sm text-muted-foreground">{detail}</li>
                     ))}
                   </ul>
                 </div>
@@ -176,9 +212,7 @@ const ProductDetail = () => {
                     ))}
                   </div>
                   <span className="text-sm">{product.rating}</span>
-                  <Link to="reviews" className="text-sm underline ml-2">
-                    View all
-                  </Link>
+                  <Link to="reviews" className="text-sm underline ml-2">View all</Link>
                 </div>
               </div>
             </div>
