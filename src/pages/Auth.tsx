@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import { Facebook } from 'lucide-react';
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -32,6 +33,7 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen flex">
+      {/* Left side image */}
       <div className="flex-1 bg-muted hidden lg:block relative overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200"
@@ -39,7 +41,8 @@ const Auth = () => {
           className="w-full h-full object-cover"
         />
       </div>
-      
+
+      {/* Right side form */}
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md space-y-8">
           <div>
@@ -65,7 +68,7 @@ const Auth = () => {
                 />
               </div>
             )}
-            
+
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -90,8 +93,28 @@ const Auth = () => {
               />
             </div>
 
+            {/* Main working Sign In / Create Account button */}
             <Button type="submit" className="w-full h-12 text-base">
               {isLogin ? 'Sign In' : 'Create Account'}
+            </Button>
+
+            {/* Social login buttons (visual only) */}
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full h-12 text-base flex items-center justify-center gap-3 border-gray-300 bg-white shadow-sm hover:bg-gray-50 mt-2"
+            >
+              <img src="/google.png" alt="Google" className="w-5 h-5" />
+              Continue with Google
+            </Button>
+
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full h-12 text-base flex items-center justify-center gap-3 border-gray-300 bg-white text-black hover:text-black shadow-sm hover:bg-blue-100 mt-2"
+            >
+              <Facebook className="w-5 h-5 text-blue-400 hover:text-white" />
+              Continue with Facebook
             </Button>
           </form>
 
@@ -100,7 +123,9 @@ const Auth = () => {
               onClick={() => setIsLogin(!isLogin)}
               className="text-sm hover:underline"
             >
-              {isLogin ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
+              {isLogin
+                ? "Don't have an account? Sign up"
+                : 'Already have an account? Sign in'}
             </button>
           </div>
         </div>

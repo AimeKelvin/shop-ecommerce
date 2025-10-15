@@ -25,11 +25,10 @@ const Home = () => {
           />
         </div>
         <div className="relative z-10 text-center text-white px-4">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-            JUST DO IT
-          </h1>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">Shop Kayonza’s Finest
+ </h1>
           <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
-            Quality products from Kayonza, Eastern Province
+            Premium local products, just for you
           </p>
           <Button asChild size="lg" className="h-12 px-8">
             <Link to="/products">
