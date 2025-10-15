@@ -40,7 +40,7 @@ const allProducts = [
     name: "Team Scarf",
     price: 9000,
     rating: 4.6,
-    category: "accessory",
+    category: "textile",
     image: "https://i.pinimg.com/736x/b4/a5/d8/b4a5d882970c2e735d856d11eb0b5bdf.jpg"
   },
   {
@@ -48,7 +48,7 @@ const allProducts = [
     name: "Sports Cap",
     price: 8000,
     rating: 4.8,
-    category: "accessory",
+    category: "headwear",
     image: "https://i.pinimg.com/1200x/dc/8c/64/dc8c644603c17a9c9eb6eadc355869c3.jpg"
   },
   {
@@ -56,7 +56,7 @@ const allProducts = [
     name: "Training Shorts",
     price: 15000,
     rating: 4.5,
-    category: "equipment",
+    category: "jersey",
     image: "https://i.pinimg.com/736x/78/36/99/7836999896b9c90785f4e2e1e2102594.jpg"
   },
   {
@@ -64,18 +64,60 @@ const allProducts = [
     name: "Soccer Ball",
     price: 20000,
     rating: 4.9,
-    category: "equipment",
-    image: "https://i.pinimg.com/1200x/46/c1/75/46c175933656da275f34b945dd3ae771.jpg"
+    category: "accessory",
+    image: "https://i.pinimg.com/1200x/3d/bd/f3/3dbdf3f2a0c9817efc4531c681682ab6.jpg"
   },
   {
     id: 8,
     name: "Goalkeeper Gloves",
     price: 18000,
     rating: 4.4,
-    category: "equipment",
-    image: "https://i.pinimg.com/1200x/0e/59/98/0e59983d73c1cbd39324e12203ff9373.jpg"
+    category: "accessory",
+    image: "https://i.pinimg.com/1200x/05/78/75/05787563086580064323e57b8c620ee0.jpg"
+  },
+  // New products
+  {
+    id: 9,
+    name: "Digital Sports Watch",
+    price: 22000,
+    rating: 4.7,
+    category: "accessory",
+    image: "https://i.pinimg.com/736x/84/e4/17/84e4172c8650f813853e803211e22440.jpg"
+  },
+  {
+    id: 10,
+    name: "Analog Classic Watch",
+    price: 30000,
+    rating: 4.8,
+    category: "accessory",
+    image: "https://i.pinimg.com/736x/7d/cc/7e/7dcc7ee62713a57a3c92458b45ca570b.jpg"
+  },
+  {
+    id: 11,
+    name: "Baseball Cap",
+    price: 7000,
+    rating: 4.5,
+    category: "accessory",
+    image: "https://i.pinimg.com/1200x/a4/15/61/a415617218dc5273f8c2260d905cecd0.jpg"
+  },
+  {
+    id: 12,
+    name: "Snapback Hat",
+    price: 8500,
+    rating: 4.6,
+    category: "accessory",
+    image: "https://i.pinimg.com/1200x/5b/13/3e/5b133ec9d16ba9945efecfaa04fea9a1.jpg"
+  },
+  {
+    id: 13,
+    name: "Fitness Tracker Watch",
+    price: 27000,
+    rating: 4.9,
+    category: "accessory",
+    image: "https://i.pinimg.com/736x/4b/3d/78/4b3d787f53eb4d12ff48d978a07c5ff7.jpg"
   }
 ];
+
 
 
   // Filter by category
@@ -93,11 +135,11 @@ const allProducts = [
   }
 
   const categories = [
-    { value: "", label: "All Products" },
-    { value: "food", label: "Food & Drinks" },
-    { value: "crafts", label: "Handcrafts" },
-    { value: "textiles", label: "Textiles" },
-  ];
+  { value: "", label: "All Products" },
+  { value: "jersey", label: "Jerseys" },
+  { value: "accessory", label: "Accessories" },
+];
+
 
   const handleCategoryChange = (value: string) => {
     const params = new URLSearchParams(searchParams);
@@ -141,7 +183,7 @@ const allProducts = [
               <Badge
                 key={cat.value}
                 variant={category === cat.value || (!category && !cat.value) ? "default" : "outline"}
-                className="cursor-pointer hover:bg-primary/90 transition-colors"
+                className="cursor-pointer hover:bg-primary/90 hover:text-white transition-colors"
                 onClick={() => handleCategoryChange(cat.value)}
               >
                 {cat.label}
