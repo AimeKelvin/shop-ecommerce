@@ -6,10 +6,39 @@ import Navbar from "@/components/Navbar";
 
 const Home = () => {
   const featuredProducts = [
-    { id: 1, name: "Premium Coffee Beans", price: 15000, rating: 4.8, image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400" },
-    { id: 2, name: "Handcrafted Basket", price: 8500, rating: 4.9, image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400" },
-    { id: 3, name: "Traditional Fabric", price: 12000, rating: 4.7, image: "https://images.unsplash.com/photo-1558769132-cb1aea1f5168?w=400" },
-  ];
+  {
+    id: 6,
+    name: "Training Shorts",
+    price: 15000,
+    rating: 4.5,
+    category: "jersey",
+    image: "https://i.pinimg.com/736x/78/36/99/7836999896b9c90785f4e2e1e2102594.jpg",
+    description: "Comfortable training shorts for everyday workouts.",
+    details: ["Material: Polyester", "Sizes: XS - XL"],
+    sizes: ["XS", "S", "M", "L", "XL"],
+  },
+  {
+    id: 7,
+    name: "Soccer Ball",
+    price: 20000,
+    rating: 4.9,
+    category: "accessory",
+    image: "https://i.pinimg.com/1200x/3d/bd/f3/3dbdf3f2a0c9817efc4531c681682ab6.jpg",
+    description: "Official size soccer ball for training or matches.",
+    details: ["Material: Synthetic Leather", "Size: 5"],
+    sizes: [],
+  },
+  {
+    id: 8,
+    name: "Goalkeeper Gloves",
+    price: 18000,
+    rating: 4.4,
+    category: "accessory",
+    image: "https://i.pinimg.com/1200x/05/78/75/05787563086580064323e57b8c620ee0.jpg",
+    description: "High-quality gloves for goalkeepers.",
+    details: ["Material: Latex", "Sizes: S - XL"],
+    sizes: ["S", "M", "L", "XL"],
+  }];
 
   return (
     <div className="min-h-screen bg-background">

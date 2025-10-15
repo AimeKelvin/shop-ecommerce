@@ -1,7 +1,8 @@
+// src/pages/ProductDetail.tsx
 import { useParams, Link, Routes, Route, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Star, ShoppingCart, ArrowLeft } from "lucide-react";
+import { Star, ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -12,6 +13,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { allProducts } from "@/data/products";
 
 const ProductReviews = () => {
   const reviews = [
@@ -21,7 +23,7 @@ const ProductReviews = () => {
   ];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 mt-12">
       <h3 className="text-xl font-semibold mb-4">Customer Reviews</h3>
       {reviews.map((review) => (
         <Card key={review.id}>
@@ -49,32 +51,20 @@ const ProductReviews = () => {
 };
 
 const ProductDetail = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [selectedSize, setSelectedSize] = useState("M");
 
-  const product = {
-    id: Number(id),
-    name: "Premium Coffee Beans",
-    price: 15000,
-    rating: 4.8,
-    description: "High-quality Arabica coffee beans sourced from local farms in Kayonza. Rich aroma and smooth taste, perfect for coffee enthusiasts.",
-    category: "Food & Drinks",
-    inStock: true,
-    images: [
-      "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600",
-      "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600",
-      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600",
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600",
-    ],
-    details: [
-      "Origin: Kayonza, Eastern Province",
-      "Weight: 500g",
-      "Roast: Medium",
-      "Organic certified",
-    ],
-    sizes: ["XS", "S", "M", "L", "XL"],
-  };
+  const productId = Number(id);
+  const product = allProducts.find((p) => p.id === productId);
+
+  if (!product) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-xl text-muted-foreground">Product not found.</p>
+      </div>
+    );
+  }
 
   const handleAddToCart = () => {
     toast.success("Added to cart!", {
@@ -85,8 +75,18 @@ const ProductDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+
       <div className="container px-4 py-12">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="mb-6"
+          onClick={() => navigate(-1)}
+          aria-label="Go back"
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </Button>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-7xl mx-auto">
           {/* Product Images Carousel */}
           <div>
@@ -97,8 +97,8 @@ const ProductDetail = () => {
                     <div className="aspect-square bg-muted">
                       <img
                         src={image}
-                        alt={`${product.name} ${index + 1}`}
-                        className="w-full h-full object-cover"
+                        alt={`${product.name} image ${index + 1}`}
+                        className="w-full h-full object-contain"
                       />
                     </div>
                   </CarouselItem>
@@ -118,31 +118,30 @@ const ProductDetail = () => {
             </div>
 
             {/* Size Selection */}
-            <div>
-              <h3 className="text-sm font-medium mb-4">Select Size</h3>
-              <div className="grid grid-cols-5 gap-2">
-                {product.sizes.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`py-3 border transition-colors ${
-                      selectedSize === size
-                        ? "border-foreground bg-foreground text-background"
-                        : "border-border hover:border-foreground"
-                    }`}
-                  >
-                    {size}
-                  </button>
-                ))}
+            {product.sizes && product.sizes.length > 0 && (
+              <div>
+                <h3 className="text-sm font-medium mb-4">Select Size</h3>
+                <div className="grid grid-cols-5 gap-2">
+                  {product.sizes.map((size) => (
+                    <Button
+                      key={size}
+                      variant={selectedSize === size ? "default" : "outline"}
+                      className="py-3"
+                      onClick={() => setSelectedSize(size)}
+                    >
+                      {size}
+                    </Button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Add to Cart */}
             <Button size="lg" className="w-full h-14 text-base" onClick={handleAddToCart}>
               Add to Cart
             </Button>
 
-            {/* Description */}
+            {/* Description & Details */}
             <div className="space-y-4 pt-8 border-t border-border">
               <div>
                 <h3 className="text-sm font-medium mb-2">Product Information</h3>
@@ -150,18 +149,21 @@ const ProductDetail = () => {
                   {product.description}
                 </p>
               </div>
-              
-              <div>
-                <h3 className="text-sm font-medium mb-2">Details</h3>
-                <ul className="space-y-1">
-                  {product.details.map((detail, index) => (
-                    <li key={index} className="text-sm text-muted-foreground">
-                      {detail}
-                    </li>
-                  ))}
-                </ul>
-              </div>
 
+              {product.details && product.details.length > 0 && (
+                <div>
+                  <h3 className="text-sm font-medium mb-2">Details</h3>
+                  <ul className="space-y-1">
+                    {product.details.map((detail, index) => (
+                      <li key={index} className="text-sm text-muted-foreground">
+                        {detail}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Reviews Summary */}
               <div>
                 <h3 className="text-sm font-medium mb-2">Reviews</h3>
                 <div className="flex items-center gap-2">
@@ -169,7 +171,7 @@ const ProductDetail = () => {
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`h-4 w-4 ${i < Math.floor(product.rating) ? "fill-foreground" : "text-muted"}`}
+                        className={`h-4 w-4 ${i < Math.floor(product.rating) ? "fill-primary text-primary" : "text-muted"}`}
                       />
                     ))}
                   </div>
