@@ -10,16 +10,73 @@ const Products = () => {
   const category = searchParams.get("category");
   const sort = searchParams.get("sort");
 
-  const allProducts = [
-    { id: 1, name: "Premium Coffee Beans", price: 15000, rating: 4.8, category: "food", image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400" },
-    { id: 2, name: "Handcrafted Basket", price: 8500, rating: 4.9, category: "crafts", image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400" },
-    { id: 3, name: "Traditional Fabric", price: 12000, rating: 4.7, category: "textiles", image: "https://images.unsplash.com/photo-1558769132-cb1aea1f5168?w=400" },
-    { id: 4, name: "Organic Honey", price: 6000, rating: 4.6, category: "food", image: "https://images.unsplash.com/photo-1587049352846-4a222e784720?w=400" },
-    { id: 5, name: "Ceramic Vase", price: 18000, rating: 4.8, category: "crafts", image: "https://images.unsplash.com/photo-1578500494198-246f612d3b3d?w=400" },
-    { id: 6, name: "Cotton Scarf", price: 9500, rating: 4.5, category: "textiles", image: "https://images.unsplash.com/photo-1601924287525-6947532eec5f?w=400" },
-    { id: 7, name: "Banana Wine", price: 20000, rating: 4.9, category: "food", image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400" },
-    { id: 8, name: "Woven Mat", price: 7500, rating: 4.4, category: "crafts", image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400" },
-  ];
+const allProducts = [
+  {
+    id: 1,
+    name: "Red Home Jersey",
+    price: 25000,
+    rating: 4.8,
+    category: "jersey",
+    image: "https://i.pinimg.com/736x/09/43/92/094392a6867bbef3c0df9fe8c33316bf.jpg"
+  },
+  {
+    id: 2,
+    name: "Blue Away Jersey",
+    price: 26000,
+    rating: 4.9,
+    category: "jersey",
+    image: "https://i.pinimg.com/1200x/bd/e5/1e/bde51e7bae7f66fe370c962af7f69429.jpg"
+  },
+  {
+    id: 3,
+    name: "Goalkeeper Jersey",
+    price: 28000,
+    rating: 4.7,
+    category: "jersey",
+    image: "https://i.pinimg.com/736x/52/ee/38/52ee38929caa01d58360098070cd9a69.jpg"
+  },
+  {
+    id: 4,
+    name: "Team Scarf",
+    price: 9000,
+    rating: 4.6,
+    category: "accessory",
+    image: "https://i.pinimg.com/736x/b4/a5/d8/b4a5d882970c2e735d856d11eb0b5bdf.jpg"
+  },
+  {
+    id: 5,
+    name: "Sports Cap",
+    price: 8000,
+    rating: 4.8,
+    category: "accessory",
+    image: "https://i.pinimg.com/1200x/dc/8c/64/dc8c644603c17a9c9eb6eadc355869c3.jpg"
+  },
+  {
+    id: 6,
+    name: "Training Shorts",
+    price: 15000,
+    rating: 4.5,
+    category: "equipment",
+    image: "https://i.pinimg.com/736x/78/36/99/7836999896b9c90785f4e2e1e2102594.jpg"
+  },
+  {
+    id: 7,
+    name: "Soccer Ball",
+    price: 20000,
+    rating: 4.9,
+    category: "equipment",
+    image: "https://i.pinimg.com/1200x/46/c1/75/46c175933656da275f34b945dd3ae771.jpg"
+  },
+  {
+    id: 8,
+    name: "Goalkeeper Gloves",
+    price: 18000,
+    rating: 4.4,
+    category: "equipment",
+    image: "https://i.pinimg.com/1200x/0e/59/98/0e59983d73c1cbd39324e12203ff9373.jpg"
+  }
+];
+
 
   // Filter by category
   let filteredProducts = category 
